@@ -4,9 +4,9 @@ python:
   - 3.5
 
 install: 
-pip3 install pytest
-pip3 install flask
-pip3 install selenium
+pip install pytest
+pip install flask
+pip install selenium
 
 script: 
 python3 -m pytest --capture=no test_money_formatter/
