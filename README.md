@@ -62,7 +62,7 @@ Download chrome and chromedriver from https://chromedriver.storage.googleapis.co
 Pass chrome driver in the root of project.
 
 And run
-```python
+```shell
 python3 -m pytest --capture=no test_money_formatter/
 ```
 
@@ -77,7 +77,7 @@ python3 money_formatting.py
 Your server should start on http://localhost:5000/
 
 And run
-```python
+```shell
 python3 -m pytest --capture=no test_money_formatter/ --environment=http://localhost:5000/
 ```
 
