@@ -5,7 +5,6 @@ import os
 from heracles.pages.general_page import GeneralPage
 
 browser = webdriver.Chrome(executable_path=os.getcwd() + '/chromedriver')
-BASE_URL = 'http://localhost:5000/'
 INCORRECT_VALUE_ERROR = 'Please enter any number in next format (1234.1234)'
 
 positive_data = [
@@ -27,8 +26,8 @@ negative_data = [
 
 
 @pytest.fixture(scope="function", autouse=True)
-def run_around_tests():
-    browser.get(BASE_URL)
+def run_around_tests(environment):
+    browser.get(environment)
 
 
 @pytest.fixture(scope="module", autouse=True)
