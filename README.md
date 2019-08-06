@@ -1,48 +1,96 @@
 <img src="https://upload.wikimedia.org/wikipedia/commons/4/48/Twelve_Labours_Altemps_Inv8642.jpg" height="300px"/>
 
-# Heracles: Pleo's Test Engineer Challenge
+# Simple solution it's the best solution!
 
-We're really happy that you're considering to join us! Here's a challenge that will help us understand your skills and serve as a starting discussion point for the interview.
+My application has 2 main modules:
 
-We're not expecting that everything will be done perfectly as we value your time. You're encouraged to point out possible improvements in your solution and we will dicuss them during the interview.
+1) server
+    Done on flask. This is simple validation server which allow to enter your data.
+    By click Submit button you can validate your data and format related to task.
+    Server has error message if you enter incorrect data like (letters, spaces, symbols etc)
 
-## The challenge: Money Formatting
+2) automation framework
+    Automation framework has few layours:
+        1) Driver initialization
+            I've make this layour very simple - just initialize browser in test module.
+            Usually for corporate application I use next architecture:
 
-Given an amount of money as a number, format it as a string. Add associated tests for the functionality and for the user interface. 
+            DriverHandler class - this class responsible on creating driver instance. By static factory pattern
+            I decide how to create instance. Browser/device type I'm passing by command lines or by parameters in testing framework.
+            All the same functionality is located in Driver class which os parent class of ChromeDriver and FirefoxDriver(for exmple).
+            If we have some different behavior for different browser we overriding methods in their classes.
 
-```js
-formatMoney(2310000.159897); // '2 310 000.16'
-formatMoney(1600); // '1 600.00'
+            Page structure - usually I create some BasePage where I initialize all needed methods as (click, swipe, sendkeys etc)
+            In this application BasePage is Element class. All another classes are extends from this class and can use parent class methods.
+
+            Simple page has four secrion:
+                a) locators (in case of Java I'm using @FindBy, @FindAll, @FindBys annotations to initialize elements.
+                b) getters for each locator.
+                c) functional logic - all logic which we can do with elements on current page.
+                d) business logic - logic which leads to next page.
+
+            We can have some different scenarion on Chrome or Firefox. I'm using reflection approach to handle this problem.
+            Simple create method in utils package that have module and function name parameters.
+            In page code I just have something like this
+
+            basic_method():
+                call_method_from_util()
+
+
+            basic_method_firefox()
+                firefox_implementation_code
+
+            basic_method_chrome()
+                            chrome_implementation_code
+
+             This approach allows me easy and simple handle different behaviors in different browsers.
+
+
+
+## How to start application
+
+**NOTE: Please run all comands from /heracles folder**
+
+All code is deployed to http://fedak.space:5000/ you can use this endpoint to test application.
+Simple install all requirement packages
+
+```python
+pip3 install requirements.txt
 ```
 
-This needs to be a "fully working application" (you choose the format: web, cli, backend-frontend, mobile app, ...)
+Download chrome and chromedriver from https://chromedriver.storage.googleapis.com/index.html related to your version of Chrome.
+Pass chrome driver in the root of project.
 
-*eg: A simple HTML page with an input box*
+And run
+```python
+python3 -m pytest --capture=no test_money_formatter/
+```
+
+You can setup server in your local machine
+Download the project
+
+Run
+```python
+python3 money_formatting.py
+```
+
+Your server should start on http://localhost:5000/
+
+And run
+```python
+python3 -m pytest --capture=no test_money_formatter/ --environment=http://localhost:5000/
+```
+
+--environment parameter it's base url by default base url is http://fedak.space:5000/
+
 
 ## Our evaluation criteria:
 
-- How did your structure your code? (*eg: is it structured in a testable way?*)
-- What did you test? (*eg: functionality, performance, etc.*) at which level? (*eg: unit, integration, UI, etc.*)
-- Which testing technique did you use? why?
-- We also care a little about the functionality itself
-
-## What we won't really care: 
-
-- If your UI looking great, 0 line of CSS is quite enough CSS
-- You use the latest JS framework of the day
-- The programming language
-
-## What would be awesome:
-
-- You use some nice testing techniques, fuzz testing, mutation testing, ... (even if they don't make sense here they'll probably do in your day to day job)
-- You handle some stuff to test that we are not even aware of 
-  - *eg: You handle funky unicode strings (eg: [big list of naughty strings](https://github.com/minimaxir/big-list-of-naughty-strings))*
-- You show us how you run your tests in CI/CD
-  
-## Instructions:
-
-Fork this repo with your solution. We want to see your progression through commits (don’t commit the entire solution in 1 step) and don't forget to create a `README.md` to explain your thought process and also provide instructions on how to run the tests.
-
-Please let us know how long the challenge takes you. We're not looking for how speedy or lengthy you are. It's just really to give us a clearer idea of what you've produced in the time you decided to take. Feel free to go as big or as small as you want.
-
-Happy testing! 🚀
+- Q: How did your structure your code? (*eg: is it structured in a testable way?*)
+- A: The code is easy to maintain and easy to test. Testing framework is easy to grow as a corporate framework.
+- Q: What did you test? (*eg: functionality, performance, etc.*) at which level? (*eg: unit, integration, UI, etc.*)
+- A: I've tested just functionality. Unit testing it's developers area. I'm powerfull in web, mobile and api testing (all ways of testing for 98% applications).
+- Q: Which testing technique did you use? why?
+- A: Boundary value and Equivalence partitioning - the best technique for this task.
+- Q: We also care a little about the functionality itself.
+- A: Functionality is a little bit pass acceptance criteria for testing task.
