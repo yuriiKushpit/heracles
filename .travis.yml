@@ -11,5 +11,4 @@ branches:
   - master
 
 script:
-    pwd
     python3 -m pytest --capture=no test_money_formatter/
