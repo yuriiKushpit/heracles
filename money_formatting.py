@@ -10,7 +10,7 @@ def main():
 
 @app.route('/format', methods=['POST', 'GET'])
 def format():
-    format = "{:,.2f}".format(request.form['data']).replace(",", " ")
+    format = "{:,.2f}".format(float(request.form['data'])).replace(",", " ")
     return render_template("format.html", formatted_value=format.replace(',','.'))
 
 
