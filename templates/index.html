@@ -9,7 +9,7 @@
             function validateData() {
                 var num1 = document.forms["formattingForm"]["data"].value;
                 if (num1.match(/^ *$/) !== null || isNaN(num1)) {
-                    document.getElementById('error').innerHTML = "Please enter any number in next format (1234.1234)";
+                    document.getElementById('error').textContent = "Please enter any number in next format (1234.1234)";
                     document.forms["formattingForm"]["data"].value = "";
                     return false;
                 }
@@ -17,7 +17,7 @@
             </script>
         <form id="formattingForm" onsubmit="return validateData()" action="http://localhost:5000/format" method="POST">
             <input type="text" id="data" name="data">
-            <div id="error" style="color:red">   </div>
+            <div id="error"  style="color: red">   </div>
             <input type="submit" value="Format">
         </form>
     </body>

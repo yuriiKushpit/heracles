@@ -2,6 +2,8 @@ import pytest
 from selenium import webdriver
 import os
 
+from heracles.pages.general_page import GeneralPage
+
 browser = webdriver.Chrome(executable_path=os.getcwd() + '/chromedriver')
 BASE_URL = 'http://localhost:5000/'
 INCORRECT_VALUE_ERROR = 'Please enter any number in next format (1234.1234)'
@@ -37,15 +39,16 @@ def run_around_file():
 
 @pytest.mark.parametrize('entered_value, expected_value', positive_data)
 def test_positive_scenarios(entered_value, expected_value):
-    browser.find_element_by_id('data').send_keys(str(entered_value))
-    browser.find_element_by_css_selector('input[type="submit"]').click()
-    assert browser.find_element_by_id('result').text == expected_value
+    page = GeneralPage(browser)
+    page.send_keys(page.get_enter_data_input(), str(entered_value))
+    page.click_on_element(page.get_submit_button())
+    assert page.get_text(page.get_result_input()) == expected_value
 
 
 @pytest.mark.parametrize('entered_value', negative_data)
 def test_negative_scenarios(entered_value):
-    browser.find_element_by_id('data').send_keys(str(entered_value))
-    browser.find_element_by_css_selector('input[type="submit"]').click()
-    assert browser.find_element_by_id('error').text == INCORRECT_VALUE_ERROR
-    assert browser.find_element_by_id('data').text == ''
+    page = GeneralPage(browser)
+    page.send_keys(page.get_enter_data_input(), str(entered_value))
+    page.click_on_element(page.get_submit_button())
+    assert page.get_text(page.get_error_label()) == INCORRECT_VALUE_ERROR
 
