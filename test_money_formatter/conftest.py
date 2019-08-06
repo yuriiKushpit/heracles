@@ -1,4 +1,5 @@
 def pytest_addoption(parser):
+    # Add environment option for setting up url try command line
     parser.addoption("--environment", action="store", default="http://fedak.space:5000/")
 
 

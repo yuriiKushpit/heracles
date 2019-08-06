@@ -4,6 +4,7 @@ import os
 
 from heracles.pages.general_page import GeneralPage
 
+# chromedriver should be in root directory of repository
 browser = webdriver.Chrome(executable_path=os.getcwd() + '/chromedriver')
 INCORRECT_VALUE_ERROR = 'Please enter any number in next format (1234.1234)'
 
@@ -25,17 +26,20 @@ negative_data = [
 ]
 
 
+# Open base page before each test
 @pytest.fixture(scope="function", autouse=True)
 def run_around_tests(environment):
     browser.get(environment)
 
 
+# Close driver after all test suite
 @pytest.fixture(scope="module", autouse=True)
 def run_around_file():
     yield
     browser.quit()
 
 
+# Positive tests
 @pytest.mark.parametrize('entered_value, expected_value', positive_data)
 def test_positive_scenarios(entered_value, expected_value):
     page = GeneralPage(browser)
@@ -44,10 +48,10 @@ def test_positive_scenarios(entered_value, expected_value):
     assert page.get_text(page.get_result_input()) == expected_value
 
 
+# Negative tests
 @pytest.mark.parametrize('entered_value', negative_data)
 def test_negative_scenarios(entered_value):
     page = GeneralPage(browser)
     page.send_keys(page.get_enter_data_input(), str(entered_value))
     page.click_on_element(page.get_submit_button())
     assert page.get_text(page.get_error_label()) == INCORRECT_VALUE_ERROR
-
