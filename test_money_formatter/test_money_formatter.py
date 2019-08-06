@@ -2,10 +2,16 @@ import pytest
 from selenium import webdriver
 import os
 
+from selenium.webdriver.chrome.options import Options
+
 from heracles.pages.general_page import GeneralPage
 
 # chromedriver should be in root directory of repository
-browser = webdriver.Chrome(executable_path=os.getcwd() + '/chromedriver')
+chrome_options = Options()
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('--no-sandbox')
+chrome_options.add_argument('--disable-dev-shm-usage')
+browser = webdriver.Chrome(executable_path=os.getcwd() + '/chromedriver', chrome_options=chrome_options)
 INCORRECT_VALUE_ERROR = 'Please enter any number in next format (1234.1234)'
 
 positive_data = [
