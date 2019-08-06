@@ -4,13 +4,11 @@ python:
   - 3.5
 
 install: 
-pip install pytest
-pip install flask
-pip install selenium
+    pip install requirements.txt
 
 branches:
   only:
   - master
 
 script: 
-python3 -m pytest --capture=no test_money_formatter/
+    python3 -m pytest --capture=no test_money_formatter/
