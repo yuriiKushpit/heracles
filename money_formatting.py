@@ -1,7 +1,3 @@
-import locale
-from decimal import Decimal, ROUND_HALF_UP
-
-locale.setlocale(locale.LC_ALL, '')
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
@@ -14,8 +10,7 @@ def main():
 
 @app.route('/format', methods=['POST', 'GET'])
 def format():
-    format = '{:n}'.format(
-        Decimal(request.form['data']).quantize(Decimal('.01'), rounding=ROUND_HALF_UP))
+    format = "{:,.2f}".format(request.form['data']).replace(",", " ")
     return render_template("format.html", formatted_value=format.replace(',','.'))
 
 
