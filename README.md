@@ -13,7 +13,7 @@ My application has 2 main modules:
     Automation framework has few layours:
         1) Driver initialization
             I've make this layour very simple - just initialize browser in test module.
-            Usually for corporate application I use next architecture:
+            Usually for corporate application I use next architecture
 
             DriverHandler class - this class responsible on creating driver instance. By static factory pattern
             I decide how to create instance. Browser/device type I'm passing by command lines or by parameters in testing framework.
